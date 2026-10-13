@@ -65,7 +65,7 @@ export function TeamManager({ members, currentUserId, isAdmin }: { members: Memb
                   <Label>{t("settings.team.role")}</Label>
                   <Select value={role} onValueChange={(v) => setRole(v as MemberRole)}>
                     <SelectTrigger className="w-full">
-                      <SelectValue />
+                      <SelectValue>{t(`settings.team.roles.${role}`)}</SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="planner">{t("settings.team.roles.planner")}</SelectItem>
@@ -114,7 +114,7 @@ export function TeamManager({ members, currentUserId, isAdmin }: { members: Memb
                 <>
                   <Select value={m.role} onValueChange={(v) => run(() => updateMemberRole(m.userId, v as MemberRole))} disabled={pending}>
                     <SelectTrigger className="w-40">
-                      <SelectValue />
+                      <SelectValue>{t(`settings.team.roles.${m.role}`)}</SelectValue>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="planner">{t("settings.team.roles.planner")}</SelectItem>

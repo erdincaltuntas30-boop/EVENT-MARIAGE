@@ -84,9 +84,9 @@ export function LeadsBoard({ orgId, initialLeads }: { orgId: string; initialLead
     <>
       <div className="mb-6 flex flex-wrap gap-3">
         <Select value={source} onValueChange={setSource}>
-          <SelectTrigger className="w-48 bg-card">
+          <SelectTrigger className="w-48 justify-start bg-card [&>svg]:ml-auto">
             <span className="text-muted-foreground">{t("leads.filters.source")} :</span>
-            <SelectValue />
+            <SelectValue>{source === "all" ? t("common.all") : t(`sources.${source as "form"}`)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">{t("common.all")}</SelectItem>
@@ -98,9 +98,9 @@ export function LeadsBoard({ orgId, initialLeads }: { orgId: string; initialLead
           </SelectContent>
         </Select>
         <Select value={period} onValueChange={(v) => setPeriod(v as typeof period)}>
-          <SelectTrigger className="w-52 bg-card">
+          <SelectTrigger className="w-52 justify-start bg-card [&>svg]:ml-auto">
             <span className="text-muted-foreground">{t("leads.filters.period")} :</span>
-            <SelectValue />
+            <SelectValue>{period === "all" ? t("leads.filters.anyTime") : t(`periods.${period}`)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             {PERIODS.map((p) => (

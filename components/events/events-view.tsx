@@ -101,7 +101,7 @@ function EventLine({ event: e }: { event: EventRow }) {
   const overdue = e.payments.some((p) => p.status === "overdue")
   return (
     <li>
-      <Link href={`/evenements/${e.id}`} className="grid grid-cols-[3.5rem_1fr] items-center gap-5 px-6 py-5 hover:bg-muted/40 md:grid-cols-[3.5rem_1fr_10rem_9rem_7rem]">
+      <Link href={`/evenements/${e.id}`} className="grid grid-cols-[3.5rem_1fr] items-center gap-5 px-6 py-5 hover:bg-muted/40 md:grid-cols-[3.5rem_minmax(0,1fr)_8rem_7rem] xl:grid-cols-[3.5rem_minmax(0,1fr)_10rem_9rem_7rem]">
         <div className="text-center">
           <div className="font-display text-3xl leading-none">{formatDate(e.date, locale, { day: "numeric" })}</div>
           <div className="mt-1 text-[11px] tracking-wide text-muted-foreground uppercase">
@@ -120,7 +120,7 @@ function EventLine({ event: e }: { event: EventRow }) {
           </p>
           <Progress value={percent(done, e.event_tasks.length)} className="h-1" />
         </div>
-        <p className={cn("hidden text-xs md:block", overdue ? "text-destructive" : "text-muted-foreground")}>
+        <p className={cn("hidden text-xs xl:block", overdue ? "text-destructive" : "text-muted-foreground")}>
           {t("events.paymentsSummary", { received, total: e.payments.length })}
         </p>
         <p className="font-display hidden text-right text-lg md:block">{formatMoney(e.contract_amount_cents, locale)}</p>

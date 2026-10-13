@@ -35,9 +35,9 @@ export function LeadActions({ leadId, stage }: { leadId: string; stage: LeadStag
   return (
     <div className="flex flex-wrap items-center gap-2">
       <Select value={stage} onValueChange={(v) => run(() => moveLeadStage(leadId, v as LeadStage))} disabled={pending}>
-        <SelectTrigger className="w-44 bg-card">
+        <SelectTrigger className="w-44 justify-start bg-card [&>svg]:ml-auto">
           <span className="text-muted-foreground">{t("leads.detail.stage")} :</span>
-          <SelectValue />
+          <SelectValue>{t(`stages.${stage}`)}</SelectValue>
         </SelectTrigger>
         <SelectContent>
           {LEAD_STAGES.map((s) => (

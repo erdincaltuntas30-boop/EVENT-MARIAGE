@@ -9,7 +9,7 @@ import { LeadNotes } from "@/components/leads/lead-notes"
 import { SourceIcon } from "@/components/leads/source-icon"
 import { formatDate, formatMoney, fullName } from "@/lib/format"
 import { requireOrg } from "@/lib/org"
-import { ACTIVITY_SELECT, type ActivityWithRefs } from "@/lib/queries"
+import { ACTIVITY_SELECT, type ActivityWithRefs } from "@/lib/activity"
 import { supabaseServer } from "@/lib/supabase/server"
 import type { Lead } from "@/lib/types"
 
@@ -67,7 +67,7 @@ export default async function LeadPage({ params }: { params: Promise<{ id: strin
       value: (
         <span className="flex flex-col">
           {l.email && (
-            <a href={`mailto:${l.email}`} className="truncate hover:underline">
+            <a href={`mailto:${l.email}`} className="break-all hover:underline">
               {l.email}
             </a>
           )}
@@ -99,7 +99,7 @@ export default async function LeadPage({ params }: { params: Promise<{ id: strin
             {facts.map((f) => (
               <div key={f.label} className="min-w-0">
                 <dt className="text-xs tracking-wide text-muted-foreground uppercase">{f.label}</dt>
-                <dd className="mt-1.5 truncate text-sm">{f.value}</dd>
+                <dd className="mt-1.5 text-sm break-words">{f.value}</dd>
               </div>
             ))}
           </dl>

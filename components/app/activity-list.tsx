@@ -6,7 +6,8 @@ import { useLocale, useTranslations } from "next-intl"
 import { EmptyState } from "@/components/app/empty-state"
 import { StatusDot } from "@/components/app/status-badge"
 import { formatDate, formatRelative, fullName } from "@/lib/format"
-import { type ActivityWithRefs, useActivity } from "@/lib/queries"
+import type { ActivityWithRefs } from "@/lib/activity"
+import { useActivity } from "@/lib/queries"
 import { cn } from "@/lib/utils"
 
 const ACTOR_ICON = { automation: Bot, user: Hand, system: Radio }
@@ -44,7 +45,7 @@ export function ActivityList({
           <li
             key={item.id}
             className={cn(
-              "relative py-3 animate-in fade-in slide-in-from-top-1 duration-500",
+              "relative py-3",
               variant === "feed" && "border-b border-border/60 last:border-0",
             )}
           >

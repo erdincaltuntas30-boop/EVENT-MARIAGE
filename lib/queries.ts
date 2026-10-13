@@ -2,19 +2,13 @@
 
 import { useQuery } from "@tanstack/react-query"
 import { supabaseBrowser } from "@/lib/supabase/browser"
-import type { ActivityEvent, Lead } from "@/lib/types"
+import { ACTIVITY_SELECT, type ActivityWithRefs } from "@/lib/activity"
+import type { Lead } from "@/lib/types"
 
 export const queryKeys = {
   activity: (orgId: string, scope: { leadId?: string; eventId?: string } = {}) =>
     ["activity", orgId, scope.leadId ?? null, scope.eventId ?? null] as const,
   leads: (orgId: string) => ["leads", orgId] as const,
-}
-
-export const ACTIVITY_SELECT = "*, automations(name), leads(first_name, last_name)"
-
-export type ActivityWithRefs = ActivityEvent & {
-  automations: { name: string } | null
-  leads: { first_name: string; last_name: string | null } | null
 }
 
 export function useActivity(opts: {

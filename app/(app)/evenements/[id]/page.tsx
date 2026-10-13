@@ -9,7 +9,7 @@ import { Checklist } from "@/components/events/checklist"
 import { PaymentsList } from "@/components/events/payments-list"
 import { daysUntil, formatDate, formatMoney, percent } from "@/lib/format"
 import { requireOrg } from "@/lib/org"
-import { ACTIVITY_SELECT, type ActivityWithRefs } from "@/lib/queries"
+import { ACTIVITY_SELECT, type ActivityWithRefs } from "@/lib/activity"
 import { supabaseServer } from "@/lib/supabase/server"
 import type { EventTask, Payment, Vendor, WeddingEvent } from "@/lib/types"
 

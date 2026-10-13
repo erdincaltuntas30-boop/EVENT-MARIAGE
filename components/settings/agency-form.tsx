@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { supabaseBrowser } from "@/lib/supabase/browser"
 import { cn } from "@/lib/utils"
 
+const LOCALE_NAMES: Record<string, string> = { fr: "Français", en: "English", nl: "Nederlands" }
 const PRESETS = ["#4F6B5A", "#B5654A", "#1F2A44", "#A8875A", "#7A5C7E", "#3E6B78"]
 
 interface AgencyFormProps {
@@ -127,7 +128,7 @@ export function AgencyForm({ org, readOnly }: AgencyFormProps) {
         <Label>{t("settings.agency.language")}</Label>
         <Select value={locale} onValueChange={setLocale} disabled={readOnly}>
           <SelectTrigger className="w-56 bg-card">
-            <SelectValue />
+            <SelectValue>{LOCALE_NAMES[locale] ?? locale}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="fr">Français</SelectItem>

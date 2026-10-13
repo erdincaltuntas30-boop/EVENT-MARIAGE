@@ -9,7 +9,7 @@ import { PeriodTabs } from "@/components/overview/period-tabs"
 import { PipelineChart } from "@/components/overview/pipeline-chart"
 import { daysUntil, formatDate } from "@/lib/format"
 import { requireOrg } from "@/lib/org"
-import { ACTIVITY_SELECT, type ActivityWithRefs } from "@/lib/queries"
+import { ACTIVITY_SELECT, type ActivityWithRefs } from "@/lib/activity"
 import { supabaseServer } from "@/lib/supabase/server"
 import type { DashboardKpis, WeddingEvent } from "@/lib/types"
 

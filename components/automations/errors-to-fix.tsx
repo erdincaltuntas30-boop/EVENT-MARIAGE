@@ -9,7 +9,7 @@ import { retryActivity } from "@/app/actions/automations"
 import { useActionToast } from "@/components/leads/lead-actions"
 import { Button } from "@/components/ui/button"
 import { formatRelative, fullName } from "@/lib/format"
-import type { ActivityWithRefs } from "@/lib/queries"
+import type { ActivityWithRefs } from "@/lib/activity"
 
 export function ErrorsToFix({ errors }: { errors: ActivityWithRefs[] }) {
   const t = useTranslations("automations")

@@ -20,8 +20,8 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale()
   return (
-    <html lang={locale}>
-      <body className={`${inter.variable} ${cormorant.variable}`}>
+    <html lang={locale} className={`${inter.variable} ${cormorant.variable}`}>
+      <body>
         <NextIntlClientProvider>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>

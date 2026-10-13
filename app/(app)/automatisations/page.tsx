@@ -5,7 +5,7 @@ import { PageHeader, SectionTitle } from "@/components/app/page-header"
 import { AutomationCard } from "@/components/automations/automation-card"
 import { ErrorsToFix } from "@/components/automations/errors-to-fix"
 import { requireOrg } from "@/lib/org"
-import { ACTIVITY_SELECT, type ActivityWithRefs } from "@/lib/queries"
+import { ACTIVITY_SELECT, type ActivityWithRefs } from "@/lib/activity"
 import { supabaseServer } from "@/lib/supabase/server"
 import type { Automation, AutomationStats } from "@/lib/types"
 
