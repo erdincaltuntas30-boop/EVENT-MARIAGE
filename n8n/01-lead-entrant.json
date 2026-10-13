@@ -1,0 +1,306 @@
+{
+  "name": "Event Mariage · Lead entrant → ingestion",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "event-mariage/nouveau-lead",
+        "options": {}
+      },
+      "id": "b037a68f-f273-4d52-a9ed-fdc2db3e1914",
+      "name": "Nouveau lead (formulaire, Instagram, Mariages.net…)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "7acd08f9-0fd7-4c92-9f0d-a01e5a5c0255"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "563302af-0d25-4402-80ce-6bed97328268",
+              "name": "api_url",
+              "value": "https://votre-app.vercel.app",
+              "type": "string"
+            },
+            {
+              "id": "efb094a9-79db-46a9-846d-5842f04c6eb7",
+              "name": "key_id",
+              "value": "emk_REMPLACER",
+              "type": "string"
+            },
+            {
+              "id": "811ca599-6772-4927-a7a2-55e67b9f7fb3",
+              "name": "secret",
+              "value": "ems_REMPLACER",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "b4c731a3-3c3a-40b5-849a-b832e9aea677",
+      "name": "Config Event Mariage",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        300
+      ],
+      "notes": "Renseignez l'URL de l'app et la clé API (Réglages › Intégrations).",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Construit le corps EXACT qui sera envoyé (la signature porte sur cette chaîne).\nconst payload = (() => {\n  const d = $('Nouveau lead (formulaire, Instagram, Mariages.net…)').first().json.body ?? {};\n  return {\n    external_id: String(d.id ?? d.submission_id ?? $execution.id),\n    source: d.source ?? 'form',            // form | instagram | mariages_net | email | other\n    first_name: d.first_name ?? d.prenom ?? 'Inconnu',\n    last_name: d.last_name ?? d.nom ?? null,\n    partner_name: d.partner_name ?? d.conjoint ?? null,\n    email: d.email ?? null,\n    phone: d.phone ?? d.telephone ?? null,\n    wedding_date: d.wedding_date ?? d.date_mariage ?? null,   // AAAA-MM-JJ\n    budget: d.budget ? Number(d.budget) : null,               // en euros\n    guest_count: d.guest_count ? Number(d.guest_count) : null,\n    venue: d.venue ?? d.lieu ?? null,\n    message: d.message ?? null,\n  };\n})();\nconst body = JSON.stringify(payload);\nconst timestamp = Math.floor(Date.now() / 1000);\nreturn [{ json: { body, timestamp, to_sign: `${timestamp}.${body}` } }];"
+      },
+      "id": "354f8864-1d11-44b9-873e-aec0daa8d161",
+      "name": "Construire le lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "action": "hmac",
+        "type": "SHA256",
+        "value": "={{ $json.to_sign }}",
+        "dataPropertyName": "signature",
+        "secret": "={{ $('Config Event Mariage').first().json.secret }}",
+        "encoding": "hex"
+      },
+      "id": "c8e31c97-ea28-4ae2-aeea-0a1d5d148609",
+      "name": "Signer le lead",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        960,
+        300
+      ],
+      "notes": "HMAC-SHA256(secret, timestamp + '.' + corps)",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config Event Mariage').first().json.api_url }}/api/ingest/lead",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Config Event Mariage').first().json.key_id }}"
+            },
+            {
+              "name": "X-EM-Timestamp",
+              "value": "={{ $json.timestamp }}"
+            },
+            {
+              "name": "X-EM-Signature",
+              "value": "=sha256={{ $json.signature }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "90e99a81-d448-4ae5-909b-c5125918598d",
+      "name": "Envoyer le lead à Event Mariage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "2af87822-1b67-4457-9312-5f77200b8b3c",
+      "name": "Envoyer la réponse instantanée",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        300
+      ],
+      "notes": "À remplacer par votre envoi d'email ou de message (Gmail, Brevo, Instagram…).",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Construit le corps EXACT qui sera envoyé (la signature porte sur cette chaîne).\nconst payload = (() => {\n  const lead = JSON.parse($('Construire le lead').first().json.body);\n  return {\n    external_id: 'reply-' + $execution.id,\n    automation_key: 'lead_instant_reply',\n    status: 'success',\n    title: 'Réponse envoyée à ' + [lead.first_name, lead.last_name].filter(Boolean).join(' '),\n    lead_external_id: lead.external_id,\n    first_response: true,\n    detail: { channel: 'email' },\n  };\n})();\nconst body = JSON.stringify(payload);\nconst timestamp = Math.floor(Date.now() / 1000);\nreturn [{ json: { body, timestamp, to_sign: `${timestamp}.${body}` } }];"
+      },
+      "id": "7d653617-e478-44de-aa56-477f08f3c17f",
+      "name": "Construire le compte-rendu",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "action": "hmac",
+        "type": "SHA256",
+        "value": "={{ $json.to_sign }}",
+        "dataPropertyName": "signature",
+        "secret": "={{ $('Config Event Mariage').first().json.secret }}",
+        "encoding": "hex"
+      },
+      "id": "17237b5c-a32d-41d3-8588-e3e0b0e71d67",
+      "name": "Signer le compte-rendu",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        300
+      ],
+      "notes": "HMAC-SHA256(secret, timestamp + '.' + corps)",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config Event Mariage').first().json.api_url }}/api/ingest/automation-run",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Config Event Mariage').first().json.key_id }}"
+            },
+            {
+              "name": "X-EM-Timestamp",
+              "value": "={{ $json.timestamp }}"
+            },
+            {
+              "name": "X-EM-Signature",
+              "value": "=sha256={{ $json.signature }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "690a41a8-5238-4298-899b-53e08401bc71",
+      "name": "Notifier Event Mariage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Nouveau lead (formulaire, Instagram, Mariages.net…)": {
+      "main": [
+        [
+          {
+            "node": "Config Event Mariage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config Event Mariage": {
+      "main": [
+        [
+          {
+            "node": "Construire le lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Construire le lead": {
+      "main": [
+        [
+          {
+            "node": "Signer le lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Signer le lead": {
+      "main": [
+        [
+          {
+            "node": "Envoyer le lead à Event Mariage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envoyer le lead à Event Mariage": {
+      "main": [
+        [
+          {
+            "node": "Envoyer la réponse instantanée",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envoyer la réponse instantanée": {
+      "main": [
+        [
+          {
+            "node": "Construire le compte-rendu",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Construire le compte-rendu": {
+      "main": [
+        [
+          {
+            "node": "Signer le compte-rendu",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Signer le compte-rendu": {
+      "main": [
+        [
+          {
+            "node": "Notifier Event Mariage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "tags": []
+}

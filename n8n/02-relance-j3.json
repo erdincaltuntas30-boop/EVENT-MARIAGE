@@ -1,0 +1,679 @@
+{
+  "name": "Event Mariage · Relance après proposition J+3",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "b95fad9d-1cc4-4057-bc3f-35ae26e7c96a",
+      "name": "Chaque matin à 9 h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "92b2ad44-6b05-463d-9339-78a3f85a983f",
+              "name": "api_url",
+              "value": "https://votre-app.vercel.app",
+              "type": "string"
+            },
+            {
+              "id": "72a21f5b-edd9-44dc-899c-ed01c8df2e62",
+              "name": "key_id",
+              "value": "emk_REMPLACER",
+              "type": "string"
+            },
+            {
+              "id": "3e3708ef-be3c-446c-898d-0f9b5b428ca0",
+              "name": "secret",
+              "value": "ems_REMPLACER",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "6fa25f18-af4f-424f-9e07-a93df59e60f5",
+      "name": "Config Event Mariage",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        300
+      ],
+      "notes": "Renseignez l'URL de l'app et la clé API (Réglages › Intégrations).",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Signature d'un GET : le corps est vide.\nconst timestamp = Math.floor(Date.now() / 1000);\nreturn [{ json: { timestamp, to_sign: `${timestamp}.` } }];"
+      },
+      "id": "f197303e-0a7e-4b8f-b4d7-bc8311c7cf3b",
+      "name": "Construire la vérification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "action": "hmac",
+        "type": "SHA256",
+        "value": "={{ $json.to_sign }}",
+        "dataPropertyName": "signature",
+        "secret": "={{ $('Config Event Mariage').first().json.secret }}",
+        "encoding": "hex"
+      },
+      "id": "87c98db7-4e72-4548-be98-8237ad5d6dcd",
+      "name": "Signer la vérification",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        960,
+        300
+      ],
+      "notes": "HMAC-SHA256(secret, timestamp + '.' + corps)",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $('Config Event Mariage').first().json.api_url }}/api/v1/automations/proposal_follow_up_j3",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Config Event Mariage').first().json.key_id }}"
+            },
+            {
+              "name": "X-EM-Timestamp",
+              "value": "={{ $json.timestamp }}"
+            },
+            {
+              "name": "X-EM-Signature",
+              "value": "=sha256={{ $json.signature }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "585154af-dcd9-49e9-b29e-c283c8f15825",
+      "name": "Automatisation active ?",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "3cdb43f4-9062-434c-bdac-4393380ba099",
+              "leftValue": "={{ $json.enabled }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7018667f-63c0-47c5-9471-d2ab5c469f0b",
+      "name": "Si activée dans l'app",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// À remplacer par la lecture de votre CRM / boîte mail.\n// Chaque élément doit contenir l'external_id du lead tel qu'envoyé à Event Mariage.\nreturn [\n  { json: { lead_external_id: 'demo-lead-20', name: 'Exemple Dupont', email: 'exemple@exemple.fr' } },\n];"
+      },
+      "id": "54a145eb-dccb-4afd-8245-2382488ec7ab",
+      "name": "Propositions sans réponse depuis 3 jours",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        300
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "41422d36-8e80-4170-988e-38990e32086c",
+      "name": "Envoyer la relance",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        300
+      ],
+      "notes": "À remplacer par votre envoi d'email (Gmail, Brevo, Outlook…).",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const lead = $input.item.json;\nconst payload = {\n  external_id: 'j3-' + lead.lead_external_id + '-' + new Date().toISOString().slice(0, 10),\n  automation_key: 'proposal_follow_up_j3',\n  status: 'success',\n  title: 'Relance J+3 envoyée à ' + lead.name,\n  lead_external_id: lead.lead_external_id,\n  respect_pause: true,\n  detail: { channel: 'email' },\n};\nconst body = JSON.stringify(payload);\nconst timestamp = Math.floor(Date.now() / 1000);\nreturn { json: { body, timestamp, to_sign: `${timestamp}.${body}` } };"
+      },
+      "id": "be8807a0-e593-4aa8-bb02-14bccdf8bf1e",
+      "name": "Construire le compte-rendu",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2160,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "action": "hmac",
+        "type": "SHA256",
+        "value": "={{ $json.to_sign }}",
+        "dataPropertyName": "signature",
+        "secret": "={{ $('Config Event Mariage').first().json.secret }}",
+        "encoding": "hex"
+      },
+      "id": "7affc7b5-901f-417e-bc46-5e605f1a7010",
+      "name": "Signer le compte-rendu",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        2400,
+        300
+      ],
+      "notes": "HMAC-SHA256(secret, timestamp + '.' + corps)",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config Event Mariage').first().json.api_url }}/api/ingest/automation-run",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Config Event Mariage').first().json.key_id }}"
+            },
+            {
+              "name": "X-EM-Timestamp",
+              "value": "={{ $json.timestamp }}"
+            },
+            {
+              "name": "X-EM-Signature",
+              "value": "=sha256={{ $json.signature }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "3ecc8fc8-9921-439c-83d3-24ee5489ea5a",
+      "name": "Notifier Event Mariage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2640,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "event-mariage/relance",
+        "options": {}
+      },
+      "id": "3e94aeeb-48d7-4258-a69e-f22bd47ca78d",
+      "name": "Relance demandée depuis l'app",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        240,
+        520
+      ],
+      "webhookId": "3f4a6cde-2d4c-422c-b5bd-3202cf70e8c3",
+      "notes": "URL à coller dans Réglages › Intégrations › « Relancer un lead ».",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2daa923b-ce87-484f-bf95-699bb21f766e",
+              "name": "outbound_secret",
+              "value": "emw_REMPLACER",
+              "type": "string"
+            },
+            {
+              "id": "96de2522-82a6-4555-935e-eac233e92c9f",
+              "name": "api_url",
+              "value": "https://votre-app.vercel.app",
+              "type": "string"
+            },
+            {
+              "id": "7134a277-5f5d-4e2f-9150-5c33d71d02a1",
+              "name": "key_id",
+              "value": "emk_REMPLACER",
+              "type": "string"
+            },
+            {
+              "id": "d7b4fa19-57d7-46dd-b176-6f47fd6c56c1",
+              "name": "secret",
+              "value": "ems_REMPLACER",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "50f0228d-69b2-4ead-a4ef-85222a1306b2",
+      "name": "Config sortante",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        520
+      ],
+      "notes": "Secret sortant (Réglages › Intégrations › Générer un nouveau secret).",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const req = $('Relance demandée depuis l\\'app').first().json;\nconst body = JSON.stringify(req.body); // l'app envoie un JSON compact : la sérialisation est identique\nconst ts = req.headers['x-em-timestamp'];\nconst fresh = Math.abs(Date.now() / 1000 - Number(ts)) < 300;\nreturn [{ json: { to_sign: `${ts}.${body}`, received: (req.headers['x-em-signature'] || '').replace('sha256=', ''), fresh, request: req.body } }];"
+      },
+      "id": "85c8dc51-c490-4d7c-9085-25e79ca404f2",
+      "name": "Préparer la vérification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "action": "hmac",
+        "type": "SHA256",
+        "value": "={{ $json.to_sign }}",
+        "dataPropertyName": "expected",
+        "secret": "={{ $('Config sortante').first().json.outbound_secret }}",
+        "encoding": "hex"
+      },
+      "id": "87be14aa-c5e4-460b-b55d-0420c9d26cdb",
+      "name": "Calculer la signature",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        960,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "8c25e263-a008-4f0e-af1d-2fc36188cfa3",
+              "leftValue": "={{ $json.expected }}",
+              "rightValue": "={{ $json.received }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "51a6c3b7-99f5-445b-be3e-51c497d6e9f7",
+              "leftValue": "={{ $json.fresh }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b258709b-e4e0-4c15-b6f9-c96f15561c32",
+      "name": "Signature valide ?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        520
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "a03e1ff5-4562-44da-9a33-fa2e4b10b9cc",
+      "name": "Envoyer la relance manuelle",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        520
+      ],
+      "notes": "Le lead est dans $json.request.lead (email, prénom, date…).",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Construit le corps EXACT qui sera envoyé (la signature porte sur cette chaîne).\nconst payload = (() => {\n  const r = $('Préparer la vérification').first().json.request;\n  return {\n    external_id: 'manual-' + $execution.id,\n    request_id: r.request_id,          // clôt la ligne « En cours » créée par l'app\n    automation_key: 'proposal_follow_up_j3',\n    status: 'success',\n    title: 'Relance envoyée à ' + [r.lead.first_name, r.lead.last_name].filter(Boolean).join(' '),\n    lead_external_id: r.lead.external_id,\n  };\n})();\nconst body = JSON.stringify(payload);\nconst timestamp = Math.floor(Date.now() / 1000);\nreturn [{ json: { body, timestamp, to_sign: `${timestamp}.${body}` } }];"
+      },
+      "id": "99efda83-dd8b-407f-ab62-3b197353f5d9",
+      "name": "Construire la confirmation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "action": "hmac",
+        "type": "SHA256",
+        "value": "={{ $json.to_sign }}",
+        "dataPropertyName": "signature",
+        "secret": "={{ $('Config sortante').first().json.secret }}",
+        "encoding": "hex"
+      },
+      "id": "cd56a938-9e62-4fc5-9e63-422dee2c781f",
+      "name": "Signer la confirmation",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        520
+      ],
+      "notes": "HMAC-SHA256(secret, timestamp + '.' + corps)",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Config sortante').first().json.api_url }}/api/ingest/automation-run",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Config sortante').first().json.key_id }}"
+            },
+            {
+              "name": "X-EM-Timestamp",
+              "value": "={{ $json.timestamp }}"
+            },
+            {
+              "name": "X-EM-Signature",
+              "value": "=sha256={{ $json.signature }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "151bdf32-4f17-47b5-826b-ed39b12953bb",
+      "name": "Confirmer à Event Mariage",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        520
+      ]
+    }
+  ],
+  "connections": {
+    "Chaque matin à 9 h": {
+      "main": [
+        [
+          {
+            "node": "Config Event Mariage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config Event Mariage": {
+      "main": [
+        [
+          {
+            "node": "Construire la vérification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Construire la vérification": {
+      "main": [
+        [
+          {
+            "node": "Signer la vérification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Signer la vérification": {
+      "main": [
+        [
+          {
+            "node": "Automatisation active ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Automatisation active ?": {
+      "main": [
+        [
+          {
+            "node": "Si activée dans l'app",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Si activée dans l'app": {
+      "main": [
+        [
+          {
+            "node": "Propositions sans réponse depuis 3 jours",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Propositions sans réponse depuis 3 jours": {
+      "main": [
+        [
+          {
+            "node": "Envoyer la relance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envoyer la relance": {
+      "main": [
+        [
+          {
+            "node": "Construire le compte-rendu",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Construire le compte-rendu": {
+      "main": [
+        [
+          {
+            "node": "Signer le compte-rendu",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Signer le compte-rendu": {
+      "main": [
+        [
+          {
+            "node": "Notifier Event Mariage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Relance demandée depuis l'app": {
+      "main": [
+        [
+          {
+            "node": "Config sortante",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config sortante": {
+      "main": [
+        [
+          {
+            "node": "Préparer la vérification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Préparer la vérification": {
+      "main": [
+        [
+          {
+            "node": "Calculer la signature",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculer la signature": {
+      "main": [
+        [
+          {
+            "node": "Signature valide ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Signature valide ?": {
+      "main": [
+        [
+          {
+            "node": "Envoyer la relance manuelle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Envoyer la relance manuelle": {
+      "main": [
+        [
+          {
+            "node": "Construire la confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Construire la confirmation": {
+      "main": [
+        [
+          {
+            "node": "Signer la confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Signer la confirmation": {
+      "main": [
+        [
+          {
+            "node": "Confirmer à Event Mariage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "tags": []
+}
