@@ -281,7 +281,8 @@
     "invalid": "Sommige gegevens zijn ongeldig",
     "invalidUrl": "Een van de adressen is ongeldig",
     "cannotChangeSelf": "U kunt uw eigen rol niet wijzigen",
-    "unknown": "Er is iets misgegaan"
+    "unknown": "Er is iets misgegaan",
+    "demoReadOnly": "Demomodus: deze actie is uitgeschakeld. Koppel Supabase om ze te gebruiken."
   },
   "live": {
     "newLead": "Nieuwe aanvraag",
@@ -310,5 +311,8 @@
     "name": "Naam van het bureau",
     "placeholder": "Maison Lumière",
     "submit": "Bureau aanmaken"
+  },
+  "demo": {
+    "banner": "Demomodus: fictieve gegevens, wijzigingen worden niet opgeslagen."
   }
 }

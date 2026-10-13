@@ -5,7 +5,7 @@ import { z } from "zod"
 import { requireOrg } from "@/lib/org"
 import { supabaseServer } from "@/lib/supabase/server"
 import type { Lead, LeadStage } from "@/lib/types"
-import { fail, ok, type ActionResult } from "./result"
+import { demoReadOnly, fail, ok, type ActionResult } from "./result"
 import { runAction } from "./run-action"
 
 const stageSchema = z.enum(["new", "qualified", "meeting", "proposal", "won", "lost"])
@@ -38,6 +38,8 @@ function leadPayload(lead: Lead) {
 const fullName = (l: Lead) => [l.first_name, l.last_name].filter(Boolean).join(" ")
 
 export async function followUpLead(leadId: string): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireOrg()
   const lead = await loadLead(leadId)
   if (!lead) return fail("notFound")
@@ -53,6 +55,8 @@ export async function followUpLead(leadId: string): Promise<ActionResult> {
 }
 
 export async function sendProposal(leadId: string): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireOrg()
   const lead = await loadLead(leadId)
   if (!lead) return fail("notFound")
@@ -72,6 +76,8 @@ export async function sendProposal(leadId: string): Promise<ActionResult> {
 }
 
 export async function moveLeadStage(leadId: string, stage: LeadStage, lostReason?: string): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireOrg()
   const parsed = stageSchema.safeParse(stage)
   if (!parsed.success) return fail("invalid")
@@ -101,6 +107,8 @@ export async function moveLeadStage(leadId: string, stage: LeadStage, lostReason
 const notesSchema = z.object({ notes: z.string().max(5000) })
 
 export async function updateLeadNotes(leadId: string, notes: string): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   await requireOrg()
   const parsed = notesSchema.safeParse({ notes })
   if (!parsed.success) return fail("invalid")

@@ -9,11 +9,13 @@ import { provisionOrganization } from "@/lib/provision"
 import { supabaseAdmin } from "@/lib/supabase/admin"
 import { supabaseServer } from "@/lib/supabase/server"
 import { LOCALES, LOCALE_COOKIE } from "@/i18n/config"
-import { fail, type ActionResult } from "./result"
+import { demoReadOnly, fail, type ActionResult } from "./result"
 
 const ONE_YEAR = 60 * 60 * 24 * 365
 
 export async function createOrganization(_: unknown, form: FormData): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const name = z.string().trim().min(2).max(80).safeParse(form.get("name"))
   if (!name.success) return fail("invalid")
   const supabase = await supabaseServer()

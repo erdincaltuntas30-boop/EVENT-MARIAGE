@@ -1,9 +1,14 @@
 import { createBrowserClient } from "@supabase/ssr"
-import { publicEnv } from "@/lib/env"
+import { createDemoClient } from "@/lib/demo/client"
+import { isDemoMode, publicEnv } from "@/lib/env"
 
-let client: ReturnType<typeof createBrowserClient> | null = null
+function createClient() {
+  return createBrowserClient(publicEnv.NEXT_PUBLIC_SUPABASE_URL, publicEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+}
+
+let client: ReturnType<typeof createClient> | null = null
 
 export function supabaseBrowser() {
-  client ??= createBrowserClient(publicEnv.NEXT_PUBLIC_SUPABASE_URL, publicEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY)
+  client ??= isDemoMode ? (createDemoClient() as unknown as ReturnType<typeof createClient>) : createClient()
   return client
 }

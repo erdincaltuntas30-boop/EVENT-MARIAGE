@@ -8,7 +8,7 @@ import { requireAdmin } from "@/lib/org"
 import { supabaseAdmin } from "@/lib/supabase/admin"
 import { supabaseServer } from "@/lib/supabase/server"
 import { WEBHOOK_ACTIONS, type WebhookAction } from "@/lib/types"
-import { fail, ok, type ActionResult } from "./result"
+import { demoReadOnly, fail, ok, type ActionResult } from "./result"
 
 const ROTATION_GRACE_HOURS = 24
 
@@ -22,6 +22,8 @@ const agencySchema = z.object({
 })
 
 export async function updateAgency(input: z.input<typeof agencySchema>): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireAdmin()
   const parsed = agencySchema.safeParse(input)
   if (!parsed.success) return fail("invalid")
@@ -40,6 +42,8 @@ export async function updateAgency(input: z.input<typeof agencySchema>): Promise
 const inviteSchema = z.object({ email: z.email(), role: z.enum(["admin", "planner"]) })
 
 export async function inviteMember(input: z.input<typeof inviteSchema>): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireAdmin()
   const parsed = inviteSchema.safeParse(input)
   if (!parsed.success) return fail("invalid")
@@ -66,6 +70,8 @@ export async function inviteMember(input: z.input<typeof inviteSchema>): Promise
 }
 
 export async function updateMemberRole(userId: string, role: "admin" | "planner"): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireAdmin()
   if (userId === ctx.userId) return fail("cannotChangeSelf")
   const supabase = await supabaseServer()
@@ -76,6 +82,8 @@ export async function updateMemberRole(userId: string, role: "admin" | "planner"
 }
 
 export async function removeMember(userId: string): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireAdmin()
   if (userId === ctx.userId) return fail("cannotChangeSelf")
   const supabase = await supabaseServer()
@@ -90,6 +98,8 @@ export async function removeMember(userId: string): Promise<ActionResult> {
 const webhooksSchema = z.record(z.enum(WEBHOOK_ACTIONS), z.url().or(z.literal("")))
 
 export async function saveWebhooks(input: Partial<Record<WebhookAction, string>>): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireAdmin()
   const parsed = webhooksSchema.safeParse(input)
   if (!parsed.success) return fail("invalidUrl")
@@ -110,6 +120,8 @@ export async function saveWebhooks(input: Partial<Record<WebhookAction, string>>
 }
 
 export async function testWebhook(action: WebhookAction): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireAdmin()
   const { dispatchToN8n, dispatchErrorMessage } = await import("@/lib/n8n/dispatch")
   const res = await dispatchToN8n({
@@ -124,6 +136,8 @@ export async function testWebhook(action: WebhookAction): Promise<ActionResult> 
 
 /** Nouveau secret de signature sortant : affiché une seule fois. */
 export async function rotateOutboundSecret(): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireAdmin()
   const secret = generateSecret()
   const { error } = await supabaseAdmin()
@@ -140,6 +154,8 @@ export async function rotateOutboundSecret(): Promise<ActionResult> {
  * pour laisser le temps de mettre n8n à jour sans interruption.
  */
 export async function createApiKey(label: string, rotate: boolean): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireAdmin()
   const admin = supabaseAdmin()
   const { keyId, secret, last4 } = generateApiKey()
@@ -168,6 +184,8 @@ export async function createApiKey(label: string, rotate: boolean): Promise<Acti
 }
 
 export async function revokeApiKey(id: string): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireAdmin()
   const { error } = await supabaseAdmin()
     .from("api_keys")

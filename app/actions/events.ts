@@ -3,9 +3,11 @@
 import { revalidatePath } from "next/cache"
 import { requireOrg } from "@/lib/org"
 import { supabaseServer } from "@/lib/supabase/server"
-import { fail, ok, type ActionResult } from "./result"
+import { demoReadOnly, fail, ok, type ActionResult } from "./result"
 
 export async function toggleTask(taskId: string, done: boolean): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireOrg()
   const supabase = await supabaseServer()
   const { data, error } = await supabase
@@ -20,6 +22,8 @@ export async function toggleTask(taskId: string, done: boolean): Promise<ActionR
 }
 
 export async function markPaymentReceived(paymentId: string): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireOrg()
   const supabase = await supabaseServer()
   const { data, error } = await supabase

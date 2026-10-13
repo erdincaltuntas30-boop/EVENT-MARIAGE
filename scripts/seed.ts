@@ -176,7 +176,7 @@ async function seedMaisonLumiere(ownerId: string) {
         stage === "new"
           ? faker.number.int({ min: 0, max: 6 })
           : stage === "won"
-            ? faker.number.int({ min: 35, max: 170 })
+            ? faker.number.int({ min: 10, max: 170 })
             : faker.number.int({ min: 5, max: 90 })
       const created = subDays(NOW, ageDays)
       created.setHours(faker.number.int({ min: 8, max: 22 }), faker.number.int({ min: 0, max: 59 }))
@@ -314,7 +314,7 @@ async function seedMaisonLumiere(ownerId: string) {
       actor: "automation",
       lead_id: ref.lead?.id ?? null,
       event_id: ref.eventId ?? null,
-      title: failed ? `Échec : ${title.charAt(0).toLowerCase()}${title.slice(1)}` : title,
+      title: failed ? `Échec — ${title}` : title,
       error_message: failed ? pick(ERRORS) : null,
       detail: { channel: pick(["email", "email", "sms"]) },
       occurred_at: iso(at),
@@ -386,9 +386,10 @@ async function seedMaisonLumiere(ownerId: string) {
   // Complète jusqu'à exactement 300 avec l'activité courante des 30 derniers jours
   while (activity.length < 300) {
     const l = pick(leads)
+    const created = new Date(l.created_at)
     run(
-      pick(["lead_qualification", "meeting_reminder", "checklist_milestones", "proposal_follow_up_j3"]),
-      faker.date.between({ from: subDays(NOW, 30), to: NOW }),
+      pick(["lead_qualification", "meeting_reminder", "proposal_follow_up_j3"]),
+      faker.date.between({ from: created > subDays(NOW, 30) ? created : subDays(NOW, 30), to: NOW }),
       `Suivi automatique pour ${name(l)}`,
       { lead: l },
     )

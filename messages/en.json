@@ -281,7 +281,8 @@
     "invalid": "Some information is invalid",
     "invalidUrl": "One of the addresses is not valid",
     "cannotChangeSelf": "You cannot change your own role",
-    "unknown": "Something went wrong"
+    "unknown": "Something went wrong",
+    "demoReadOnly": "Demo mode: this action is disabled. Connect Supabase to use it."
   },
   "live": {
     "newLead": "New enquiry",
@@ -310,5 +311,8 @@
     "name": "Agency name",
     "placeholder": "Maison Lumière",
     "submit": "Create agency"
+  },
+  "demo": {
+    "banner": "Demo mode: sample data, changes are not saved."
   }
 }

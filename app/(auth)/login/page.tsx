@@ -1,4 +1,6 @@
+import { redirect } from "next/navigation"
 import { getTranslations } from "next-intl/server"
+import { isDemoMode } from "@/lib/env"
 import { LoginForm } from "./login-form"
 
 export async function generateMetadata() {
@@ -7,6 +9,7 @@ export async function generateMetadata() {
 }
 
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
+  if (isDemoMode) redirect("/")
   const { next } = await searchParams
   const t = await getTranslations()
   return (

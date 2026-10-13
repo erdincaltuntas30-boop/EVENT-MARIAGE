@@ -4,10 +4,12 @@ import { revalidatePath } from "next/cache"
 import { requireOrg } from "@/lib/org"
 import { supabaseServer } from "@/lib/supabase/server"
 import type { ActivityEvent, Automation } from "@/lib/types"
-import { fail, ok, type ActionResult } from "./result"
+import { demoReadOnly, fail, ok, type ActionResult } from "./result"
 import { runAction } from "./run-action"
 
 export async function toggleAutomation(automationId: string, enabled: boolean): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireOrg()
   const supabase = await supabaseServer()
   const { data, error } = await supabase
@@ -35,6 +37,8 @@ export async function toggleAutomation(automationId: string, enabled: boolean): 
 }
 
 export async function retryActivity(activityId: string): Promise<ActionResult> {
+  const blocked = demoReadOnly()
+  if (blocked) return blocked
   const ctx = await requireOrg()
   const supabase = await supabaseServer()
   const { data } = await supabase

@@ -39,6 +39,12 @@ scripts/              données de démo, envoi d'un événement de test
 n8n/                  workflows importables
 ```
 
+## Mode démo (sans Supabase)
+
+Si `NEXT_PUBLIC_SUPABASE_URL` n'est pas défini (ou si `NEXT_PUBLIC_DEMO_MODE=1`), l'app démarre en **mode démo** : toutes les pages affichent les données fictives de Maison Lumière, sans connexion ni base de données. Un bandeau le signale, et les actions qui modifient des données (relancer, déplacer un lead, réglages…) sont désactivées. L'API d'ingestion répond `503`.
+
+C'est le comportement par défaut d'un premier déploiement Vercel sans variables d'environnement. Dès que les variables Supabase sont ajoutées et l'app redéployée, le mode démo disparaît.
+
 ---
 
 ## Installation

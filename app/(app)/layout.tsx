@@ -1,5 +1,7 @@
+import { DemoBanner } from "@/components/app/demo-banner"
 import { RealtimeBridge } from "@/components/app/realtime-bridge"
 import { MobileNav, Sidebar } from "@/components/app/sidebar"
+import { isDemoMode } from "@/lib/env"
 import { requireOrg } from "@/lib/org"
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
@@ -15,6 +17,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         user={{ name: ctx.fullName, email: ctx.email, role: ctx.role }}
       />
       <div className="min-w-0 flex-1">
+        {isDemoMode && <DemoBanner />}
         <MobileNav orgName={ctx.org.name} />
         <main className="px-6 py-8 md:px-10 lg:px-14 lg:py-12">
           <div className="mx-auto max-w-[1280px]">{children}</div>

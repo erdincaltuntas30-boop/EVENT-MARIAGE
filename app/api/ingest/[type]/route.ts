@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
+import { isDemoMode } from "@/lib/env"
 import { supabaseAdmin } from "@/lib/supabase/admin"
 import { authenticateIngest } from "@/lib/ingest/auth"
 import { HANDLERS, IngestError, type Outcome } from "@/lib/ingest/handlers"
@@ -12,6 +13,7 @@ export const dynamic = "force-dynamic"
 const MAX_BODY_BYTES = 512 * 1024
 
 export async function POST(request: Request, { params }: { params: Promise<{ type: string }> }) {
+  if (isDemoMode) return NextResponse.json({ error: "Mode démo : l'API n'est pas disponible tant que Supabase n'est pas configuré." }, { status: 503 })
   const { type } = await params
   if (!isIngestType(type)) {
     return NextResponse.json({ error: `Type inconnu. Types acceptés : ${INGEST_TYPES.join(", ")}` }, { status: 404 })

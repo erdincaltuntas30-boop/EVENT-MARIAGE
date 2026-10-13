@@ -281,7 +281,8 @@
     "invalid": "Certaines informations sont invalides",
     "invalidUrl": "Une des adresses n'est pas valide",
     "cannotChangeSelf": "Vous ne pouvez pas modifier votre propre rôle",
-    "unknown": "Une erreur est survenue"
+    "unknown": "Une erreur est survenue",
+    "demoReadOnly": "Mode démo : cette action est désactivée. Connectez Supabase pour l’utiliser."
   },
   "live": {
     "newLead": "Nouvelle demande",
@@ -310,5 +311,8 @@
     "name": "Nom de l'agence",
     "placeholder": "Maison Lumière",
     "submit": "Créer l'agence"
+  },
+  "demo": {
+    "banner": "Mode démo : données fictives, les modifications ne sont pas enregistrées."
   }
 }
