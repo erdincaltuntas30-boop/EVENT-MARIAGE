@@ -1,17 +1,18 @@
 import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
+import { isDemoMode, publicEnv } from "@/lib/env"
 
 const PUBLIC_PATHS = ["/login", "/auth", "/api/ingest", "/api/v1"]
 
 export async function updateSession(request: NextRequest) {
   // Mode démo (Supabase non configuré) : pas de session, accès direct aux pages.
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_DEMO_MODE === "1") return NextResponse.next({ request })
+  if (isDemoMode) return NextResponse.next({ request })
 
   let response = NextResponse.next({ request })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    publicEnv.NEXT_PUBLIC_SUPABASE_URL,
+    publicEnv.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll: () => request.cookies.getAll(),
