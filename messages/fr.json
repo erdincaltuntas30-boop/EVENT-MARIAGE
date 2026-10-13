@@ -1,0 +1,314 @@
+{
+  "app": {
+    "name": "Event Mariage",
+    "tagline": "Le tableau de bord de votre agence"
+  },
+  "nav": {
+    "overview": "Vue d'ensemble",
+    "leads": "Leads",
+    "events": "Mariages",
+    "automations": "Automatisations",
+    "settings": "Réglages",
+    "signOut": "Se déconnecter",
+    "language": "Langue",
+    "switchOrg": "Changer d'agence"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "saving": "Enregistrement…",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "copy": "Copier",
+    "copied": "Copié",
+    "back": "Retour",
+    "all": "Tous",
+    "none": "—",
+    "seeAll": "Tout voir",
+    "guests": "{count, plural, =0 {Aucun invité} one {# invité} other {# invités}}",
+    "daysAgo": "il y a {count, plural, =0 {moins d'un jour} one {# jour} other {# jours}}",
+    "inDays": "{count, plural, =0 {aujourd'hui} one {dans # jour} other {dans # jours}}",
+    "adminOnly": "Cette section est réservée aux administrateurs de l'agence."
+  },
+  "periods": {
+    "7": "7 jours",
+    "30": "30 jours",
+    "90": "90 jours"
+  },
+  "stages": {
+    "new": "Nouveau",
+    "qualified": "Qualifié",
+    "meeting": "RDV",
+    "proposal": "Proposition",
+    "won": "Signé",
+    "lost": "Perdu"
+  },
+  "sources": {
+    "form": "Formulaire",
+    "instagram": "Instagram",
+    "mariages_net": "Mariages.net",
+    "email": "Email",
+    "other": "Autre"
+  },
+  "status": {
+    "pending": "En cours",
+    "success": "Réussi",
+    "error": "Erreur",
+    "info": "Info"
+  },
+  "actors": {
+    "automation": "Automatique",
+    "user": "Manuel",
+    "system": "Système"
+  },
+  "overview": {
+    "title": "Bonjour {name}",
+    "subtitle": "Voici ce qui s'est passé pour {org} ces {period}.",
+    "kpi": {
+      "newLeads": "Nouveaux leads",
+      "conversion": "Taux de conversion",
+      "signedRevenue": "CA signé",
+      "forecastRevenue": "CA prévisionnel",
+      "forecastHint": "{count} leads en cours, pondérés par étape",
+      "firstResponse": "Première réponse",
+      "firstResponseValue": "{value} min",
+      "hoursSaved": "Heures gagnées",
+      "hoursSavedHint": "grâce aux automatisations",
+      "vsPrevious": "vs période précédente"
+    },
+    "chart": {
+      "title": "Demandes et signatures",
+      "subtitle": "12 dernières semaines",
+      "leads": "Demandes",
+      "signed": "Signatures"
+    },
+    "upcoming": {
+      "title": "Prochains mariages",
+      "empty": "Aucun mariage à venir pour le moment."
+    },
+    "activity": {
+      "title": "Activité en direct",
+      "live": "En direct",
+      "empty": "Dès que vos automatisations travaillent, chaque action apparaît ici."
+    }
+  },
+  "leads": {
+    "title": "Leads",
+    "subtitle": "{count, plural, =0 {Aucune demande en cours} one {# demande en cours} other {# demandes en cours}}",
+    "filters": {
+      "source": "Source",
+      "period": "Reçus",
+      "anyTime": "Depuis toujours"
+    },
+    "emptyColumn": "Aucun lead",
+    "noReply": "Sans réponse",
+    "emptyTitle": "Votre pipeline est prêt",
+    "emptyDescription": "Les nouvelles demandes arrivent ici automatiquement dès que n8n les transmet (formulaire, Instagram, Mariages.net, email).",
+    "lostReasonPrompt": "Raison de la perte (facultatif)",
+    "detail": {
+      "weddingDate": "Date du mariage",
+      "budget": "Budget",
+      "guests": "Invités",
+      "venue": "Lieu",
+      "contact": "Contact",
+      "source": "Source",
+      "receivedAt": "Reçu le",
+      "firstResponse": "Première réponse",
+      "firstResponseIn": "en {value} min",
+      "noResponse": "Pas encore de réponse",
+      "notes": "Notes",
+      "notesPlaceholder": "Ajoutez une note pour l'équipe…",
+      "history": "Historique",
+      "historyEmpty": "Aucune action pour ce lead pour l'instant.",
+      "followUp": "Relancer",
+      "sendProposal": "Envoyer la proposition",
+      "stage": "Étape",
+      "partner": "avec {name}"
+    }
+  },
+  "events": {
+    "title": "Mariages",
+    "subtitle": "{count, plural, =0 {Aucun mariage à venir} one {# mariage à venir} other {# mariages à venir}}",
+    "tabs": {
+      "list": "Liste",
+      "calendar": "Calendrier"
+    },
+    "past": "Mariages passés",
+    "emptyTitle": "Aucun mariage signé",
+    "emptyDescription": "Chaque lead signé devient un mariage, avec sa checklist, ses prestataires et ses acomptes.",
+    "checklist": "Checklist",
+    "checklistProgress": "{done}/{total} tâches",
+    "payments": "Acomptes",
+    "paymentsSummary": "{received} reçus sur {total}",
+    "vendors": "Prestataires",
+    "vendorsEmpty": "Aucun prestataire associé.",
+    "tasksEmpty": "Aucune tâche pour cette échéance.",
+    "paymentsEmpty": "Aucun acompte prévu.",
+    "markReceived": "Marquer reçu",
+    "contract": "Contrat",
+    "activity": "Historique",
+    "milestones": {
+      "J-90": "J-90",
+      "J-30": "J-30",
+      "J-7": "J-7",
+      "J-1": "Veille",
+      "custom": "Autres tâches"
+    },
+    "paymentStatus": {
+      "pending": "En attente",
+      "received": "Reçu",
+      "overdue": "En retard"
+    },
+    "eventStatus": {
+      "planned": "À venir",
+      "done": "Passé",
+      "cancelled": "Annulé"
+    },
+    "calendar": {
+      "prev": "Mois précédent",
+      "next": "Mois suivant",
+      "today": "Aujourd'hui"
+    },
+    "due": "échéance {date}"
+  },
+  "automations": {
+    "title": "Automatisations",
+    "subtitle": "Ce que vos automatisations font pour l'agence, sans que vous ayez à y penser.",
+    "toFix": "À traiter",
+    "toFixDescription": "Ces actions n'ont pas abouti. Corrigez la cause si besoin, puis relancez.",
+    "retry": "Relancer",
+    "allGood": "Tout fonctionne. Aucune action en échec.",
+    "enabled": "Activée",
+    "paused": "En pause",
+    "runs": "{count, plural, =0 {Aucune action} one {# action} other {# actions}}",
+    "successRate": "{value} % de réussite",
+    "lastRun": "Dernière action {when}",
+    "neverRun": "Pas encore utilisée",
+    "timeSaved": "≈ {value} h gagnées",
+    "trigger": "Déclencheur",
+    "categories": {
+      "leads": "Demandes et rendez-vous",
+      "events": "Préparation des mariages",
+      "other": "Autres"
+    },
+    "emptyTitle": "Aucune automatisation",
+    "emptyDescription": "Les automatisations apparaissent ici dès que n8n envoie sa première action."
+  },
+  "settings": {
+    "title": "Réglages",
+    "tabs": {
+      "agency": "Agence",
+      "team": "Équipe",
+      "integrations": "Intégrations"
+    },
+    "agency": {
+      "title": "Profil de l'agence",
+      "name": "Nom de l'agence",
+      "logo": "Logo",
+      "uploadLogo": "Importer un logo",
+      "removeLogo": "Retirer",
+      "accent": "Couleur d'accent",
+      "accentHint": "Une seule couleur, utilisée pour les boutons et les graphiques.",
+      "language": "Langue par défaut"
+    },
+    "team": {
+      "title": "Utilisateurs et rôles",
+      "invite": "Inviter",
+      "inviteTitle": "Inviter un membre",
+      "email": "Email",
+      "role": "Rôle",
+      "you": "vous",
+      "remove": "Retirer",
+      "roles": {
+        "admin": "Administrateur",
+        "planner": "Planner"
+      },
+      "rolesHint": "Les administrateurs gèrent les réglages et les intégrations. Les planners pilotent leads et mariages."
+    },
+    "integrations": {
+      "inboundTitle": "Recevoir les données de n8n",
+      "inboundDescription": "n8n envoie les leads, mariages, acomptes et actions automatiques à cette adresse, avec une clé API et une signature.",
+      "endpoint": "Adresse d'ingestion",
+      "keys": "Clés API",
+      "keysEmpty": "Aucune clé. Créez-en une pour connecter n8n.",
+      "createKey": "Créer une clé",
+      "rotateKey": "Nouvelle clé (rotation)",
+      "rotateHint": "Les clés actuelles resteront valides 24 h, le temps de mettre n8n à jour.",
+      "revoke": "Révoquer",
+      "keyActive": "Active",
+      "keyExpires": "Expire {when}",
+      "keyRevoked": "Révoquée",
+      "lastUsed": "Utilisée {when}",
+      "neverUsed": "Jamais utilisée",
+      "newKeyTitle": "Votre nouvelle clé",
+      "newKeyWarning": "Copiez le secret maintenant : il ne sera plus jamais affiché.",
+      "keyId": "Identifiant (Authorization: Bearer)",
+      "secret": "Secret de signature",
+      "outboundTitle": "Envoyer les actions vers n8n",
+      "outboundDescription": "Quand vous cliquez sur « Relancer » ou mettez une automatisation en pause, l'app appelle ces adresses n8n (requêtes signées).",
+      "outboundSecret": "Secret de signature sortant",
+      "rotateSecret": "Générer un nouveau secret",
+      "newSecretTitle": "Nouveau secret sortant",
+      "test": "Tester",
+      "actions": {
+        "lead_follow_up": "Relancer un lead",
+        "lead_send_proposal": "Envoyer une proposition",
+        "lead_stage_changed": "Changement d'étape d'un lead",
+        "automation_toggle": "Activation / pause d'une automatisation",
+        "automation_retry": "Relancer une action en échec"
+      }
+    }
+  },
+  "actions": {
+    "saved": "Modifications enregistrées",
+    "followUpSent": "Relance transmise",
+    "proposalSent": "Proposition en cours d'envoi",
+    "stageUpdated": "Étape mise à jour",
+    "unchanged": "Aucun changement",
+    "automationEnabled": "Automatisation réactivée",
+    "automationPaused": "Automatisation mise en pause",
+    "toggleSyncFailed": "Mis à jour dans l'app, mais n8n n'a pas pu être prévenu",
+    "retrySent": "Nouvelle tentative lancée",
+    "paymentReceived": "Acompte marqué comme reçu",
+    "memberInvited": "Invitation envoyée",
+    "memberRemoved": "Membre retiré",
+    "webhookOk": "n8n a bien reçu le test",
+    "secretRotated": "Nouveau secret généré",
+    "keyCreated": "Clé créée",
+    "keyRevoked": "Clé révoquée",
+    "dispatchFailed": "L'action n'a pas pu être transmise",
+    "notFound": "Élément introuvable",
+    "notRetryable": "Cette action ne peut pas être relancée",
+    "invalid": "Certaines informations sont invalides",
+    "invalidUrl": "Une des adresses n'est pas valide",
+    "cannotChangeSelf": "Vous ne pouvez pas modifier votre propre rôle",
+    "unknown": "Une erreur est survenue"
+  },
+  "live": {
+    "newLead": "Nouvelle demande",
+    "error": "Une automatisation a échoué",
+    "update": "Nouvelle activité"
+  },
+  "auth": {
+    "title": "Connexion",
+    "subtitle": "Accédez au tableau de bord de votre agence.",
+    "email": "Email",
+    "password": "Mot de passe",
+    "signIn": "Se connecter",
+    "magicLink": "Recevoir un lien de connexion",
+    "magicLinkSent": "Un lien de connexion vous a été envoyé par email.",
+    "error": "Email ou mot de passe incorrect.",
+    "or": "ou"
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "description": "Cette page n'existe pas ou n'est plus accessible pour votre agence.",
+    "back": "Retour au tableau de bord"
+  },
+  "onboarding": {
+    "title": "Créez votre agence",
+    "subtitle": "Quelques secondes suffisent. Vous pourrez connecter n8n ensuite.",
+    "name": "Nom de l'agence",
+    "placeholder": "Maison Lumière",
+    "submit": "Créer l'agence"
+  }
+}

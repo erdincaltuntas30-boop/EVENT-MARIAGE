@@ -1,0 +1,314 @@
+{
+  "app": {
+    "name": "Event Mariage",
+    "tagline": "Het dashboard van uw bureau"
+  },
+  "nav": {
+    "overview": "Overzicht",
+    "leads": "Leads",
+    "events": "Huwelijken",
+    "automations": "Automatiseringen",
+    "settings": "Instellingen",
+    "signOut": "Afmelden",
+    "language": "Taal",
+    "switchOrg": "Ander bureau"
+  },
+  "common": {
+    "save": "Opslaan",
+    "saving": "Opslaan…",
+    "cancel": "Annuleren",
+    "close": "Sluiten",
+    "copy": "Kopiëren",
+    "copied": "Gekopieerd",
+    "back": "Terug",
+    "all": "Alle",
+    "none": "—",
+    "seeAll": "Alles bekijken",
+    "guests": "{count, plural, =0 {Geen gasten} one {# gast} other {# gasten}}",
+    "daysAgo": "{count, plural, =0 {minder dan een dag geleden} one {# dag geleden} other {# dagen geleden}}",
+    "inDays": "{count, plural, =0 {vandaag} one {over # dag} other {over # dagen}}",
+    "adminOnly": "Dit onderdeel is voorbehouden aan de beheerders van het bureau."
+  },
+  "periods": {
+    "7": "7 dagen",
+    "30": "30 dagen",
+    "90": "90 dagen"
+  },
+  "stages": {
+    "new": "Nieuw",
+    "qualified": "Gekwalificeerd",
+    "meeting": "Afspraak",
+    "proposal": "Voorstel",
+    "won": "Getekend",
+    "lost": "Verloren"
+  },
+  "sources": {
+    "form": "Formulier",
+    "instagram": "Instagram",
+    "mariages_net": "Mariages.net",
+    "email": "E-mail",
+    "other": "Andere"
+  },
+  "status": {
+    "pending": "Bezig",
+    "success": "Geslaagd",
+    "error": "Fout",
+    "info": "Info"
+  },
+  "actors": {
+    "automation": "Automatisch",
+    "user": "Handmatig",
+    "system": "Systeem"
+  },
+  "overview": {
+    "title": "Hallo {name}",
+    "subtitle": "Dit gebeurde er bij {org} de afgelopen {period}.",
+    "kpi": {
+      "newLeads": "Nieuwe leads",
+      "conversion": "Conversieratio",
+      "signedRevenue": "Getekende omzet",
+      "forecastRevenue": "Verwachte omzet",
+      "forecastHint": "{count} lopende leads, gewogen per fase",
+      "firstResponse": "Eerste antwoord",
+      "firstResponseValue": "{value} min",
+      "hoursSaved": "Uren bespaard",
+      "hoursSavedHint": "dankzij de automatiseringen",
+      "vsPrevious": "t.o.v. vorige periode"
+    },
+    "chart": {
+      "title": "Aanvragen en ondertekeningen",
+      "subtitle": "Laatste 12 weken",
+      "leads": "Aanvragen",
+      "signed": "Ondertekeningen"
+    },
+    "upcoming": {
+      "title": "Komende huwelijken",
+      "empty": "Nog geen komende huwelijken."
+    },
+    "activity": {
+      "title": "Live activiteit",
+      "live": "Live",
+      "empty": "Zodra uw automatiseringen aan het werk gaan, verschijnt elke actie hier."
+    }
+  },
+  "leads": {
+    "title": "Leads",
+    "subtitle": "{count, plural, =0 {Geen lopende aanvragen} one {# lopende aanvraag} other {# lopende aanvragen}}",
+    "filters": {
+      "source": "Bron",
+      "period": "Ontvangen",
+      "anyTime": "Altijd"
+    },
+    "emptyColumn": "Geen leads",
+    "noReply": "Geen antwoord",
+    "emptyTitle": "Uw pipeline staat klaar",
+    "emptyDescription": "Nieuwe aanvragen komen hier automatisch binnen zodra n8n ze doorstuurt (formulier, Instagram, Mariages.net, e-mail).",
+    "lostReasonPrompt": "Reden van verlies (optioneel)",
+    "detail": {
+      "weddingDate": "Trouwdatum",
+      "budget": "Budget",
+      "guests": "Gasten",
+      "venue": "Locatie",
+      "contact": "Contact",
+      "source": "Bron",
+      "receivedAt": "Ontvangen op",
+      "firstResponse": "Eerste antwoord",
+      "firstResponseIn": "na {value} min",
+      "noResponse": "Nog geen antwoord",
+      "notes": "Notities",
+      "notesPlaceholder": "Voeg een notitie toe voor het team…",
+      "history": "Geschiedenis",
+      "historyEmpty": "Nog geen acties voor deze lead.",
+      "followUp": "Opvolgen",
+      "sendProposal": "Voorstel versturen",
+      "stage": "Fase",
+      "partner": "met {name}"
+    }
+  },
+  "events": {
+    "title": "Huwelijken",
+    "subtitle": "{count, plural, =0 {Geen komende huwelijken} one {# komend huwelijk} other {# komende huwelijken}}",
+    "tabs": {
+      "list": "Lijst",
+      "calendar": "Kalender"
+    },
+    "past": "Voorbije huwelijken",
+    "emptyTitle": "Geen getekende huwelijken",
+    "emptyDescription": "Elke getekende lead wordt een huwelijk, met checklist, leveranciers en voorschotten.",
+    "checklist": "Checklist",
+    "checklistProgress": "{done}/{total} taken",
+    "payments": "Voorschotten",
+    "paymentsSummary": "{received} van {total} ontvangen",
+    "vendors": "Leveranciers",
+    "vendorsEmpty": "Geen leveranciers gekoppeld.",
+    "tasksEmpty": "Geen taken voor deze mijlpaal.",
+    "paymentsEmpty": "Geen voorschotten gepland.",
+    "markReceived": "Als ontvangen markeren",
+    "contract": "Contract",
+    "activity": "Geschiedenis",
+    "milestones": {
+      "J-90": "D-90",
+      "J-30": "D-30",
+      "J-7": "D-7",
+      "J-1": "Dag ervoor",
+      "custom": "Overige taken"
+    },
+    "paymentStatus": {
+      "pending": "In afwachting",
+      "received": "Ontvangen",
+      "overdue": "Achterstallig"
+    },
+    "eventStatus": {
+      "planned": "Komend",
+      "done": "Voorbij",
+      "cancelled": "Geannuleerd"
+    },
+    "calendar": {
+      "prev": "Vorige maand",
+      "next": "Volgende maand",
+      "today": "Vandaag"
+    },
+    "due": "vervalt {date}"
+  },
+  "automations": {
+    "title": "Automatiseringen",
+    "subtitle": "Wat uw automatiseringen voor het bureau doen, zonder dat u eraan hoeft te denken.",
+    "toFix": "Te behandelen",
+    "toFixDescription": "Deze acties zijn niet gelukt. Los de oorzaak op indien nodig en probeer opnieuw.",
+    "retry": "Opnieuw",
+    "allGood": "Alles werkt. Geen mislukte acties.",
+    "enabled": "Actief",
+    "paused": "Gepauzeerd",
+    "runs": "{count, plural, =0 {Geen acties} one {# actie} other {# acties}}",
+    "successRate": "{value} % geslaagd",
+    "lastRun": "Laatste actie {when}",
+    "neverRun": "Nog niet gebruikt",
+    "timeSaved": "≈ {value} u bespaard",
+    "trigger": "Trigger",
+    "categories": {
+      "leads": "Aanvragen en afspraken",
+      "events": "Voorbereiding van huwelijken",
+      "other": "Overige"
+    },
+    "emptyTitle": "Geen automatiseringen",
+    "emptyDescription": "Automatiseringen verschijnen hier zodra n8n zijn eerste actie stuurt."
+  },
+  "settings": {
+    "title": "Instellingen",
+    "tabs": {
+      "agency": "Bureau",
+      "team": "Team",
+      "integrations": "Integraties"
+    },
+    "agency": {
+      "title": "Profiel van het bureau",
+      "name": "Naam van het bureau",
+      "logo": "Logo",
+      "uploadLogo": "Logo uploaden",
+      "removeLogo": "Verwijderen",
+      "accent": "Accentkleur",
+      "accentHint": "Eén kleur, gebruikt voor knoppen en grafieken.",
+      "language": "Standaardtaal"
+    },
+    "team": {
+      "title": "Gebruikers en rollen",
+      "invite": "Uitnodigen",
+      "inviteTitle": "Een lid uitnodigen",
+      "email": "E-mail",
+      "role": "Rol",
+      "you": "u",
+      "remove": "Verwijderen",
+      "roles": {
+        "admin": "Beheerder",
+        "planner": "Planner"
+      },
+      "rolesHint": "Beheerders beheren de instellingen en integraties. Planners sturen leads en huwelijken aan."
+    },
+    "integrations": {
+      "inboundTitle": "Gegevens ontvangen van n8n",
+      "inboundDescription": "n8n stuurt leads, huwelijken, voorschotten en automatische acties naar dit adres, met een API-sleutel en een handtekening.",
+      "endpoint": "Ingestie-adres",
+      "keys": "API-sleutels",
+      "keysEmpty": "Nog geen sleutels. Maak er een aan om n8n te koppelen.",
+      "createKey": "Sleutel aanmaken",
+      "rotateKey": "Nieuwe sleutel (rotatie)",
+      "rotateHint": "De huidige sleutels blijven 24 u geldig, zodat u n8n kunt bijwerken.",
+      "revoke": "Intrekken",
+      "keyActive": "Actief",
+      "keyExpires": "Verloopt {when}",
+      "keyRevoked": "Ingetrokken",
+      "lastUsed": "Gebruikt {when}",
+      "neverUsed": "Nooit gebruikt",
+      "newKeyTitle": "Uw nieuwe sleutel",
+      "newKeyWarning": "Kopieer het geheim nu: het wordt nooit meer getoond.",
+      "keyId": "Identificatie (Authorization: Bearer)",
+      "secret": "Ondertekeningsgeheim",
+      "outboundTitle": "Acties naar n8n sturen",
+      "outboundDescription": "Wanneer u op „Opvolgen” klikt of een automatisering pauzeert, roept de app deze n8n-adressen aan (ondertekende verzoeken).",
+      "outboundSecret": "Uitgaand ondertekeningsgeheim",
+      "rotateSecret": "Nieuw geheim genereren",
+      "newSecretTitle": "Nieuw uitgaand geheim",
+      "test": "Testen",
+      "actions": {
+        "lead_follow_up": "Een lead opvolgen",
+        "lead_send_proposal": "Een voorstel versturen",
+        "lead_stage_changed": "Fasewijziging van een lead",
+        "automation_toggle": "Een automatisering aan- / uitzetten",
+        "automation_retry": "Een mislukte actie opnieuw proberen"
+      }
+    }
+  },
+  "actions": {
+    "saved": "Wijzigingen opgeslagen",
+    "followUpSent": "Opvolging verstuurd",
+    "proposalSent": "Voorstel wordt verstuurd",
+    "stageUpdated": "Fase bijgewerkt",
+    "unchanged": "Geen wijzigingen",
+    "automationEnabled": "Automatisering weer actief",
+    "automationPaused": "Automatisering gepauzeerd",
+    "toggleSyncFailed": "Bijgewerkt in de app, maar n8n kon niet worden verwittigd",
+    "retrySent": "Nieuwe poging gestart",
+    "paymentReceived": "Voorschot als ontvangen gemarkeerd",
+    "memberInvited": "Uitnodiging verstuurd",
+    "memberRemoved": "Lid verwijderd",
+    "webhookOk": "n8n heeft de test ontvangen",
+    "secretRotated": "Nieuw geheim gegenereerd",
+    "keyCreated": "Sleutel aangemaakt",
+    "keyRevoked": "Sleutel ingetrokken",
+    "dispatchFailed": "De actie kon niet worden doorgestuurd",
+    "notFound": "Element niet gevonden",
+    "notRetryable": "Deze actie kan niet opnieuw worden uitgevoerd",
+    "invalid": "Sommige gegevens zijn ongeldig",
+    "invalidUrl": "Een van de adressen is ongeldig",
+    "cannotChangeSelf": "U kunt uw eigen rol niet wijzigen",
+    "unknown": "Er is iets misgegaan"
+  },
+  "live": {
+    "newLead": "Nieuwe aanvraag",
+    "error": "Een automatisering is mislukt",
+    "update": "Nieuwe activiteit"
+  },
+  "auth": {
+    "title": "Aanmelden",
+    "subtitle": "Open het dashboard van uw bureau.",
+    "email": "E-mail",
+    "password": "Wachtwoord",
+    "signIn": "Aanmelden",
+    "magicLink": "Stuur mij een aanmeldlink",
+    "magicLinkSent": "Er is een aanmeldlink naar uw e-mail gestuurd.",
+    "error": "Onjuist e-mailadres of wachtwoord.",
+    "or": "of"
+  },
+  "notFound": {
+    "title": "Pagina niet gevonden",
+    "description": "Deze pagina bestaat niet of is niet meer toegankelijk voor uw bureau.",
+    "back": "Terug naar het dashboard"
+  },
+  "onboarding": {
+    "title": "Maak uw bureau aan",
+    "subtitle": "Het duurt maar enkele seconden. U kunt n8n daarna koppelen.",
+    "name": "Naam van het bureau",
+    "placeholder": "Maison Lumière",
+    "submit": "Bureau aanmaken"
+  }
+}
